@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software or the 748D 3D geometric-deep ensemble pipeline, please cite it as below."
+authors:
+  - family-names: "Jafari"
+    given-names: "Nader"
+    affiliation: "Member of the Computer Society of Iran (CSI), Tehran, Iran"
+    email: "Nader.jafari23@gmail.com"
+title: "Integrating Multi-Scale Radial and Differential-Geometric 3D Descriptors with Volumetric Deep Ensembles for Pulmonary Nodule Classification: Forensic Protocol Audit, Base-Learner Provenance, and Prior-Shift Analysis on LUNA16"
+version: 8.1.0
+date-released: 2026-10-27
+license: MIT
+keywords:
+  - "pulmonary nodule classification"
+  - "LUNA16 benchmark audit"
+  - "3D differential geometry"
+  - "radial-gradient flux"
+  - "out-of-fold stacking"
+  - "computer-assisted radiology"
