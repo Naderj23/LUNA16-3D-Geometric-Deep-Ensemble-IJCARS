@@ -5,7 +5,7 @@ authors:
     given-names: "Nader"
     affiliation: "Member of the Computer Society of Iran (CSI), Tehran, Iran"
     email: "Nader.jafari23@gmail.com"
-title: "Integrating Multi-Scale Radial and Differential-Geometric 3D Descriptors with Volumetric Deep Ensembles for Pulmonary Nodule Classification: Forensic Protocol Audit, Base-Learner Provenance, and Prior-Shift Analysis on LUNA16"
+title: "3D Differential-Geometric Descriptors and Volumetric Deep Ensembles for Pulmonary Nodule Classification: A LUNA16 Benchmark Audit"
 version: 8.1.0
 date-released: 2026-10-27
 license: MIT

@@ -4,7 +4,7 @@
 
 *Member of the Computer Society of Iran (CSI), Tehran, Iran*
 
-📧 **Email:** [Nader.jafari23@gmail.com](mailto:Nader.jafari23@gmail.com)
+📧 **Email:** [Nader.jafari23@gmail.com](mailto:Nader.jafari23@gmail.com) | 🆔 **ORCID:** [0009-0008-6849-3207](https://orcid.org/0009-0008-6849-3207)
 
 ### Research Interests
 
@@ -18,4 +18,4 @@
 
 ### Featured Research Repository
 
-* [LUNA16-3D-Geometric-Deep-Ensemble-IJCARS](https://www.google.com/search?q=https://github.com/%3CYOUR_GITHUB_USERNAME%3E/LUNA16-3D-Geometric-Deep-Ensemble-IJCARS): Official PyTorch & SimpleITK implementation of *"Integrating Multi-Scale Radial and Differential-Geometric 3D Descriptors with Volumetric Deep Ensembles for Pulmonary Nodule Classification: Forensic Protocol Audit, Base-Learner Provenance, and Prior-Shift Analysis on LUNA16"* (748 physical 3D descriptors + 7 volumetric/spherical-polar CNNs, 86.66% Hold-Out Test CPM, 99.44%–100.00% recall at 4–8 FP/scan).
+* [LUNA16-3D-Geometric-Deep-Ensemble-IJCARS](https://www.google.com/search?q=https://github.com/%3CYOUR_GITHUB_USERNAME%3E/LUNA16-3D-Geometric-Deep-Ensemble-IJCARS): Official PyTorch & SimpleITK implementation of *"3D Differential-Geometric Descriptors and Volumetric Deep Ensembles for Pulmonary Nodule Classification: A LUNA16 Benchmark Audit"* (748 physical 3D descriptors + 7 volumetric/spherical-polar CNNs, 86.66% Hold-Out Test CPM, 99.44%–100.00% recall at 4–8 FP/scan).

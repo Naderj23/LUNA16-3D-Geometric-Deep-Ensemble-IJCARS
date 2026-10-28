@@ -1,11 +1,11 @@
-# Integrating Multi-Scale Radial and Differential-Geometric 3D Descriptors with Volumetric Deep Ensembles for Pulmonary Nodule Classification on LUNA16
+# 3D Differential-Geometric Descriptors and Volumetric Deep Ensembles for Pulmonary Nodule Classification: A LUNA16 Benchmark Audit
 
 [License: MIT](https://www.google.com/search?q=LICENSE)
 [](https://www.python.org/)
 [](https://pytorch.org/)
 [](https://link.springer.com/journal/11548)
 
-**Author:** Nader Jafari  
+**Author:** Nader Jafari, M.Sc. (M.Sc. in Software Engineering)  
 **Affiliation:** Member of the Computer Society of Iran (CSI), Tehran, Iran  
 **Corresponding Author Email:** [Nader.jafari23@gmail.com](mailto:Nader.jafari23@gmail.com)
 
@@ -76,7 +76,7 @@ LUNA16-3D-Geometric-Deep-Ensemble-IJCARS/
 
 ### 4.1 Environment Setup
 ```bash
-git clone https://github.com/<YOUR_GITHUB_USERNAME>/LUNA16-3D-Geometric-Deep-Ensemble-IJCARS.git
+git clone https://github.com/Naderj23/LUNA16-3D-Geometric-Deep-Ensemble-IJCARS.git
 cd LUNA16-3D-Geometric-Deep-Ensemble-IJCARS
 pip install -r requirements.txt
 ```
@@ -104,7 +104,7 @@ If you find this code, the 748D 3D differential-geometric descriptor bank, or ou
 ```bibtex
 @article{Jafari2026LUNA16,
   author  = {Jafari, Nader},
-  title   = {Integrating Multi-Scale Radial and Differential-Geometric 3D Descriptors with Volumetric Deep Ensembles for Pulmonary Nodule Classification: Forensic Protocol Audit, Base-Learner Provenance, and Prior-Shift Analysis on {LUNA16}},
+  title   = {3D Differential-Geometric Descriptors and Volumetric Deep Ensembles for Pulmonary Nodule Classification: A {LUNA16} Benchmark Audit},
   journal = {International Journal of Computer Assisted Radiology and Surgery},
   year    = {2026},
   note    = {Computer Society of Iran (CSI), Tehran, Iran}
