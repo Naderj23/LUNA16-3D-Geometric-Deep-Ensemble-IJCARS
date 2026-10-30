@@ -1,27 +1,30 @@
 # ==============================================================================
-# STAGE 2 & 3 (V8.1 — CORRECTED ZERO-LEAKAGE 10-FOLD ALL-888-SCANS & LOCKED
-# HOLD-OUT OFFICIAL LUNA16 EVALUATOR FOR IJCARS):
+# STAGE 2 & 3 (V8.1 — CURATED 10,066-PATCH BENCHMARK: STRICT PURE-OOF REGIME I,
+# HYBRID META-OOF REGIME II ACROSS 888 SCANS, AND OUT-OF-SAMPLE 133-SCAN SPLITS):
 # ==============================================================================
-# Key Scientific Fixes Over V8.0 Based on the Forensic Audit Findings:
-#   1. FIXES THE V8.0 `_debias_insample_prob_to_oof` LABEL-SHIFT BUG:
-#      - The V8.0 Pillar-3 Forensic Audit proved that `V4.7`, `V5.0`, `V7.1`, and
-#        `V7.3` have ZERO positive in-sample optimism on the 622 Train scans
-#        (`Optimism Gap = -0.0072 to -0.0317`, i.e., Train AUC <= Val/Test AUC!).
-#      - In V8.0, shifting `p46_tr..p73_tr` class-conditionally using `y_tr` to
-#        match `sp_oof` artificially injected `y_tr` into the training logits,
-#        which broke the Hold-Out Test GBDT (`67.24%`). V8.1 completely removes
-#        any label-dependent shifting and uses strictly UNSUPERVISED logit
-#        standardization (`median / IQR`, using ZERO labels `y`).
-#   2. FULL 2-STAGE NESTED ARCHITECTURE ACROSS ALL 888 SCANS (10-FOLD OOF):
-#      - In V8.0, the 10-Fold All-888-Scans evaluation (`81.24%` official CPM,
-#        `0.9492` AUC across all 1,186 nodules) only used a single-stage GBDT on
-#        2 CNNs (`sp_oof, p76_oof`) and omitted the other 5 CNNs, the Hard-Negative
-#        Specialists, and the Stage-2 Pruned FROC Calibrator.
-#      - In V8.1, BOTH the **Locked 133-Scan Hold-Out Test** and the **Official
-#        10-Fold All-888-Scans (1,186 Nodules) Evaluation** run the full leak-free
-#        7-CNN + 737-Dim 3D Geometric/Polar/Hessian/Flux/Bifurcation + Stage-1B
-#        Hard-Negative Specialist + Pruned Stage-2 FROC Calibrator pipeline strictly
-#        out-of-fold (`Overlap = 0`).
+# Methodological & Provenance Alignment with the IJCARS Manuscript:
+#   1. CURATED PATCH BENCHMARK VS. UNSCREENED OFFICIAL FPRED TRACK:
+#      - All empirical evaluations operate on `LUNA16_Patches_CoordVerified_48.h5`
+#        (10,066 patches: 1,186 annotation-centered positives + 8,880 negatives at
+#        10.0 neg/scan), scored via the official `noduleCADEvaluationLUNA16.py` script.
+#      - Because the unscreened detector pools (`candidates.csv`: 551,065;
+#        `candidates_V2.csv`: 754,975) have a 61.9x–84.8x higher negative density,
+#        our CPM values reflect curated-cohort performance (with an analytical
+#        61.9x horizontal FP-axis prior-shift projection: 46.28% CPM).
+#   2. NON-EQUIVALENCE OF REGIME I AND REGIME II ON ALL-888 SCANS:
+#      - Regime I (Strict Pure-OOF on All-888 Scans: 74.18% -> 81.24% CPM, +7.06%,
+#        p < 0.001) uses ONLY the 2 strictly scan-disjoint OOF CNNs (`V7.5` 10-fold
+#        OOF and `V7.6` 5-fold OOF; `is_oof = True` for all 10,066 samples).
+#        Regime I is the sole confirmatory Pure-OOF baseline across all 888 scans.
+#      - Regime II on All-888 Scans (84.39% CPM) is a **Hybrid Meta-OOF** regime:
+#        although Stage-1/Stage-2 meta-learners, inside-fold RobustScaler, and
+#        Top-110 Fisher d' selection are 10-fold scan-disjoint OOF (with zero
+#        label-shift leakage), 5 of the 7 CNN base learners (`V4.6`–`V7.3`) were
+#        trained on `Train-622` (`is_oof = False` on `Train-622`). Meta-learner OOF
+#        status alone does not remove this upstream base-learner provenance difference.
+#      - Conversely, on the **Independent 133-Scan Validation (86.36% CPM)** and
+#        **Independent 133-Scan Hold-Out Test (86.66% CPM)** splits, all 7 CNN base
+#        learners are 100% scan-disjoint out-of-sample (`is_oof = True`, `Overlap = 0`).
 # ==============================================================================
 
 import os
@@ -79,12 +82,12 @@ except Exception:
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 IS_GPU = (device.type == 'cuda')
 if IS_GPU:
-    print(f"Active Compute Device: GPU ({torch.cuda.get_device_name(0)}) — V8.1 Zero-Leakage 10-Fold & Hold-Out Mode", flush=True)
+    print(f"Active Compute Device: GPU ({torch.cuda.get_device_name(0)}) — V8.1 Curated Benchmark (Pure-OOF Regime I / Hybrid Regime II / Out-of-Sample 133-Splits)", flush=True)
     torch.backends.cudnn.benchmark = True
 else:
     n_threads = os.cpu_count() or 2
     torch.set_num_threads(n_threads)
-    print(f"Active Compute Device: CPU ({n_threads} threads) — V8.1 Zero-Leakage 10-Fold & Hold-Out Mode", flush=True)
+    print(f"Active Compute Device: CPU ({n_threads} threads) — V8.1 Curated Benchmark (Pure-OOF Regime I / Hybrid Regime II / Out-of-Sample 133-Splits)", flush=True)
 
 BASE_DIR = '/content/drive/MyDrive/LUNA16_Data'
 DRIVE_H5 = os.path.join(BASE_DIR, 'LUNA16_Patches_CoordVerified_48.h5')
@@ -115,7 +118,7 @@ PREV_SAVE_DIR_V73 = os.path.join(BASE_DIR, 'V7_3_CoordVerified_Final_IJCARS')
 PREV_SAVE_DIR_V74 = os.path.join(BASE_DIR, 'V7_4_CoordVerified_Final_IJCARS')
 PREV_SAVE_DIR_V75 = os.path.join(BASE_DIR, 'V7_5_CoordVerified_Final_IJCARS')
 PREV_SAVE_DIR_V76 = os.path.join(BASE_DIR, 'V7_6_CoordVerified_Final_IJCARS')
-SAVE_DIR = os.path.join(BASE_DIR, 'V8_1_ZeroLeakage_10Fold_And_HoldOut_IJCARS')
+SAVE_DIR = os.path.join(BASE_DIR, 'V8_1_CuratedBenchmark_RegimeI_RegimeII_IJCARS')
 os.makedirs(SAVE_DIR, exist_ok=True)
 
 ALL_CACHE_DIRS = (
@@ -1430,9 +1433,9 @@ def main():
     all_idx_arr = np.arange(N_all, dtype=np.int64)
 
     for report_title, part_name, idx_p, scans_p, y_p, pred_p in [
-        ("LOCKED VALIDATION SET (133 SCANS, 169 LESIONS — V8.1 ZERO-LEAKAGE)", "Validation_133Scans_V8_1", va_idx_arr, val_scans, y_va, best_p_va),
-        ("LOCKED HOLD-OUT TEST SET (133 SCANS, 167 LESIONS — V8.1 ZERO-LEAKAGE)", "HoldOutTest_133Scans_V8_1", te_idx_arr, test_scans, y_te, best_p_te),
-        ("OFFICIAL 10-FOLD MERGED FULL DATASET (ALL 888 SCANS, 1186 LESIONS — V8.1 OOF)", "All888Scans_10Fold_V8_1", all_idx_arr, all_scans_sorted, labels, final_oof_all888),
+        ("INDEPENDENT VALIDATION SPLIT (133 SCANS, 169 LESIONS — 100% OUT-OF-SAMPLE)", "Validation_133Scans_V8_1", va_idx_arr, val_scans, y_va, best_p_va),
+        ("INDEPENDENT HOLD-OUT TEST SPLIT (133 SCANS, 167 LESIONS — 100% OUT-OF-SAMPLE)", "HoldOutTest_133Scans_V8_1", te_idx_arr, test_scans, y_te, best_p_te),
+        ("ALL-888 SCANS REGIME II (10-FOLD META-OOF + HYBRID 7-CNN: 2 OOF + 5 TRAIN-622 CNNs)", "All888Scans_10Fold_V8_1", all_idx_arr, all_scans_sorted, labels, final_oof_all888),
     ]:
         sub_dir = os.path.join(SAVE_DIR, part_name)
         os.makedirs(sub_dir, exist_ok=True)

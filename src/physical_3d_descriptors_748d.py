@@ -78,7 +78,7 @@ def compute_3d_hessian_invariants_eq2_to_eq5(
         l_alg1, l_alg2, l_alg3 = eigvals[..., 0], eigvals[..., 1], eigvals[..., 2]
 
         # Eq. (5): Koenderink Shape Index SI_sigma(x) and Curvedness CV_sigma(x)
-        si_sigma = -(2.0 / np.pi) * np.arctan((l_alg1 + l_alg2 + l_alg3) / (l_alg3 - l_alg1 + eps))
+        si_sigma = -(2.0 / np.pi) * np.arctan((l_alg1 + l_alg3) / (l_alg3 - l_alg1 + eps))
         cv_sigma = np.sqrt((l_alg1 ** 2 + l_alg2 ** 2 + l_alg3 ** 2) / 3.0)
 
         # Magnitude ordering for Eqs. (2)-(4): |lambda_1| <= |lambda_2| <= |lambda_3|
