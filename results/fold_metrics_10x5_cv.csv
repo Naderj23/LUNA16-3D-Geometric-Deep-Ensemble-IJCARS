@@ -1,0 +1,12 @@
+outer_fold,luna16_subset,n_scans,n_nodules,pure_1166d_cpm_pct,hybrid_1195d_cpm_pct,hybrid_roc_auc
+Fold_00,subset0,89,112,91.85,92.24,0.9839
+Fold_01,subset1,89,115,92.10,92.51,0.9845
+Fold_02,subset2,89,124,91.72,92.15,0.9836
+Fold_03,subset3,89,121,92.34,92.68,0.9848
+Fold_04,subset4,89,119,91.60,92.02,0.9832
+Fold_05,subset5,89,117,92.05,92.44,0.9843
+Fold_06,subset6,89,120,92.18,92.55,0.9846
+Fold_07,subset7,89,118,91.88,92.28,0.9840
+Fold_08,subset8,88,119,91.79,92.19,0.9838
+Fold_09,subset9,88,121,91.89,92.24,0.9843
+Pooled_OOF_All888,subset0..9,888,1186,91.94,92.33,0.9841

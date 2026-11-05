@@ -1,0 +1,4 @@
+partition,seed,n_scans,n_positive_nodules,n_negative_patches,total_patches,pure_1166d_cpm,hybrid_1195d_cpm,hybrid_roc_auc
+Train-622,42,622,850,6220,7070,OOF_Fit,OOF_Fit,OOF_Fit
+Val-133,42,133,169,1330,1499,93.83,93.15,0.9847
+Test-133,42,133,167,1330,1497,89.91,90.25,0.9808

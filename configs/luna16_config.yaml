@@ -1,0 +1,45 @@
+# LUNA16 Dataset, Cohort Stratification, and Cryptographic Provenance Configuration
+dataset:
+  name: "LIDC-IDRI / LUNA16 Thoracic CT Benchmark"
+  total_scans: 888
+  reference_nodules_ge_3mm: 1186
+  positive_matching_criterion: "3D Euclidean distance < 0.5 * diameter_mm"
+
+cohorts:
+  curated_hdf5:
+    filename: "LUNA16_Patches_CoordVerified_48.h5"
+    total_patches: 10066
+    positive_patches: 1186
+    negative_patches: 8880
+    negatives_per_scan: 10.0
+    patch_shape_mm3: [48, 48, 48]
+    voxel_spacing_mm: [1.0, 1.0, 1.0]
+    continuous_center_anchor_x0: [23.5, 23.5, 23.5]
+    unrounded_float32_sha256: "48f009e851d23da1ae3ee72fa2bd4a37146a975264f0f027415a7fe15a7e97bc"
+    per_patch_merkle_sha256: "90f6167ae46af384a685c9293da86e9b510859d119b05450ad94e3bb564c78f7"
+
+  official_full_pool_v2:
+    filename: "candidates_V2.csv"
+    total_candidates: 754975
+    negatives_per_scan: 848.4
+    prior_shift_ratio_vs_curated: 84.15
+    detector_sensitivity_ceiling: 0.9831
+
+  official_full_pool_v1:
+    filename: "candidates.csv"
+    total_candidates: 551065
+    negatives_per_scan: 619.1
+    prior_shift_ratio_vs_curated: 61.34
+    detector_sensitivity_ceiling: 0.9444
+
+  raw_mhd_blind_pilot:
+    mounted_scans_pool: 445
+    selected_pilot_scans: 25
+    selection_seed: 42
+    label_blind_selection: true
+    posthoc_positive_scans: 18
+    posthoc_negative_scans: 7
+    posthoc_reference_nodules: 36
+    total_v2_candidates: 20984
+    cross_audited_patches: 286
+    candidate_pool_sha256_prefix: "50a5ca18dbba7e48"

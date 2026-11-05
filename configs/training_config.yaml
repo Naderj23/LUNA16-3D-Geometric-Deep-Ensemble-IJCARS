@@ -1,0 +1,49 @@
+# Training & Cross-Validation Hyperparameter Configuration (Section 2.3)
+protocols:
+  all_888_nested_cv:
+    outer_folds: 10
+    inner_folds: 5
+    scan_level_isolation: true
+    random_seed: 42
+
+  locked_split_622_133_133:
+    train_scans: 622
+    val_scans: 133
+    val_nodules: 169
+    test_scans: 133
+    test_nodules: 167
+    random_seed: 42
+
+neural_branch_stream_b:
+  architecture: "MultiWindowCoordConv3DResNeXtWithDiameterHead + FoldIsolatedTriPlanarMIPConvNet"
+  input_tensor_shape: [6, 24, 24, 24]
+  channels:
+    - "Ch0: 12x12x12 mm^3 Core Window (upsampled to 24^3)"
+    - "Ch1: 24x24x24 mm^3 Native Window"
+    - "Ch2: 48x48x48 mm^3 Context Window (downsampled to 24^3)"
+    - "Ch3: 3D Multi-Scale Box-Difference (Ch1 - Ch2)"
+    - "Ch4: Subsolid GGN Window [-900, -100] HU"
+    - "Ch5: 3D Radial Gaussian CoordConv Spatial Prior"
+  pooling: "CoreVsOuterSphericalPooling3D + SqueezeExcitation3D"
+  optimizer: "AdamW"
+  learning_rate: 0.0008
+  weight_decay: 0.0001
+  batch_size: 64
+  epochs: 35
+  lr_scheduler: "CosineAnnealingLR"
+  loss_function: "L_3D = L_rank (Focal-Ranking) + 0.22 * L_Huber(d_pred, log(1 + D))"
+  data_augmentation: "8-View Cube Reflection Equivariance ({0,1}^3 flips) + Random 90-deg Axial Rotations"
+  inner_oof_output_dim: 29
+
+feature_fusion_stage_iii:
+  pure_3d_descriptor_dim: 1166
+  hybrid_descriptor_dim: 1195
+  specialist_veto_subspace_dim: 506
+  oof_base_learners:
+    - "CatBoostClassifier (depth=6, iterations=900)"
+    - "LGBMClassifier (num_leaves=31, n_estimators=800)"
+    - "XGBClassifier (max_depth=5, n_estimators=800)"
+    - "HistGradientBoostingClassifier (max_iter=600)"
+    - "ExtraTreesClassifier (n_estimators=500)"
+    - "MLPClassifier (hidden_layer_sizes=[256, 128])"
+    - "LogisticRegression_L2 / Ridge"

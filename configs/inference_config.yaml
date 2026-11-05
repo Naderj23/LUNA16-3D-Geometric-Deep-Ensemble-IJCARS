@@ -1,0 +1,30 @@
+# Two-Stage Inference, 3D Foveal Re-Centering, K=24 Calibration & Official FROC Evaluation Config
+stage0_gpu_screener:
+  descriptor_dim: 64
+  breakdown:
+    concentric_shells_octants_mip: 36
+    star_ray_26_polar_veto: 16
+    k24_scan_context: 12
+  dual_view_scoring: "max(p_raw, p_recentered)"
+  top_k_shortlist_per_scan: 80
+  cpu_gpu_float32_max_diff_tolerance: 1.0e-5
+
+foveal_3d_recentering_eq9:
+  positive_mass_ball_radius_mm: 4.5
+  max_shift_clamp_radius_mm: 3.5
+
+k24_scan_calibration_eq9:
+  anchor_candidates_k: 24
+  beta_med: 0.18
+  beta_q25: 0.10
+  gamma_sec: 0.14
+  nu_veto: 0.20
+  enforce_monotonic_cascade_ordering: true
+
+froc_evaluation_eq10:
+  official_script: "noduleCADEvaluationLUNA16.py"
+  fail_closed_subprocess_gate: true
+  max_allowed_subprocess_discrepancy_pp: 0.0001
+  fp_per_scan_thresholds: [0.125, 0.25, 0.5, 1.0, 2.0, 4.0, 8.0]
+  paired_scan_bootstrap_resamples: 1000
+  davison_hinkley_p_value_floor: 0.001
