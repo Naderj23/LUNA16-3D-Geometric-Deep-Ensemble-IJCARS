@@ -4,7 +4,8 @@ All-888_10x5_CV,Step1_Classical_5Family_3D_ZeroCNN,888_Scans_Curated_10066,742,8
 All-888_10x5_CV,Step2_Plus_Fam6_DualQR_SphericalHarmonics,888_Scans_Curated_10066,870,89.84,89.86,88.25,91.38,0.9786,+1.65,<=0.001,0.0000
 All-888_10x5_CV,Step3_Plus_Fam7_8_Volumetric_TopologicalVeto,888_Scans_Curated_10066,1102,91.28,91.30,89.80,92.71,0.9819,+3.09,<=0.001,0.0000
 All-888_10x5_CV,Step4_Proposed_Pure_9Family_ZeroCNN,888_Scans_Curated_10066,1166,91.94,91.97,90.51,93.38,0.9835,+3.75,<=0.001,0.0000
-All-888_10x5_CV,Step5_Proposed_Hybrid_EndToEnd,888_Scans_Curated_10066,1195,92.33,92.34,90.91,93.66,0.9841,+24.85,<=0.001,0.0000
+All-888_10x5_CV,Step5_Proposed_Hybrid_EndToEnd_vs_CNN,888_Scans_Curated_10066,1195,92.33,92.34,90.91,93.66,0.9841,+24.85,<=0.001,0.0000
+All-888_10x5_CV,Step5b_Proposed_Hybrid_vs_Pure9Fam,888_Scans_Curated_10066,1195,92.33,92.34,90.91,93.66,0.9841,+0.39,0.014,0.0000
 Locked_Val_133,Standalone_6Ch_3D_CNN,133_Val_Scans_169_Pos,29,68.97,69.05,63.17,74.77,0.9341,0.00,Baseline,0.0000
 Locked_Val_133,Classical_5Family_3D_ZeroCNN,133_Val_Scans_169_Pos,742,89.43,89.31,85.10,93.12,0.9782,+20.46,<=0.001,0.0000
 Locked_Val_133,Proposed_Pure_9Family_ZeroCNN,133_Val_Scans_169_Pos,1166,93.83,93.66,89.98,96.67,0.9869,+4.40,<=0.001,0.0000

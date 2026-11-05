@@ -552,6 +552,8 @@ class TestFinalReproducibleFramework(unittest.TestCase):
         self.assertIn("23.5, 23.5, 23.5", combined)
         self.assertIn("84.15", combined)
         self.assertIn("61.34", combined)
+        self.assertIn("https://github.com/Naderj23/LUNA16-3D-Geometric-Deep-Ensemble-IJCARS", combined, "Missing GitHub repository URL in manuscript!")
+        self.assertIn("M.Sc. in Software Engineering", combined, "Missing M.Sc. in Software Engineering degree in manuscript!")
         total_all_words = sum(len(p.text.split()) for p in doc.paragraphs) + sum(len(c.text.split()) for t in doc.tables for r in t.rows for c in r.cells)
         self.assertLessEqual(total_all_words, 5000, f"Manuscript total words {total_all_words} exceeds 5,000 limit!")
         for arch_ref in ["Setio", "Causey", "NoduleX", "Kim", "Xiao", "El-Baz", "Winkels", "CoordConv", "10.3390/app9163261", "10.1007/978-3-642-23626-6_22", "10.1109/CBD51900.2020.00047", "10.1007/978-3-540-88693-8_27", "10.1201/9780429246593"]:

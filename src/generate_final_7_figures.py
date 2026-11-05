@@ -220,7 +220,7 @@ def make_fig1_data_and_pipeline(inter_path: str, out_600_path: str):
             50.2, 74.8, 55.4, 12.6,
             "Regime 1: Curated Coordinate-Verified Cohort (LUNA16_Patches_CoordVerified_48.h5)",
             [
-                "• Scope: 10,066 Patches (1,186 Positives < 0.5 D, Zero Excluded; 8,880 Negatives = 10.0 neg/scan)",
+                "• Scope: 10,066 Patches (1,186 Annotation-Centered Pos [100% Ceiling]; 8,880 Neg = 10.0 eval-neg/s)",
                 "• 286-Patch Real .mhd vs. HDF5 Audit (25 Blind Scans): Core-16³ r = 0.9030 | 64D Cosine = 0.9890",
                 "-> All-888 (10×5 CV): 91.94% Pure / 92.33% Hyb | Val-133: 93.83% / 93.15% | Test-133: 89.91% / 90.25%"
             ],
@@ -233,7 +233,7 @@ def make_fig1_data_and_pipeline(inter_path: str, out_600_path: str):
             50.2, 60.8, 55.4, 12.6,
             "Regime 3: Unscreened Raw .mhd Candidate Pools & 25-Scan Label-Blind Pilot Audit",
             [
-                "• Full Pools: candidates_V2.csv (754,975 rows, 848.4 neg/s) & candidates.csv (551,065 rows, 619.1 neg/s)",
+                "• Pools: V2 (754,975; 841.5 eval-neg/s [84.15×], C_det=98.31%) & V1 (551,065; 613.4 eval-neg/s [61.34×])",
                 "• Analytical Unscreened Prior-Shift Projection (Eq. 10): 52.93% (V2, 84.15×) & 53.26% (V1, 61.34×)",
                 "-> 25-Scan Raw .mhd Pilot (20,984 V2 Rows, 36 Nodules): Stage-0 53.97% -> Cascade 76.19% CPM"
             ],
@@ -907,6 +907,7 @@ def make_fig5_ablation_and_radar(inter_path: str, out_600_path: str):
             0.03, 0.84,
             "Inner-Fold Feature Selection & Fitting Only:\n"
             " • Pure 9-Fam vs 5-Fam: +3.75 pp (p <= 0.001)\n"
+            " • Hybrid vs Pure 9-Fam: +0.39 pp (p = 0.014)\n"
             " • Hybrid 1,195D vs 3D CNN: +24.85 pp (p <= 0.001)",
             transform=ax1.transAxes, fontsize=7.2, fontweight="bold", color="#1E293B",
             bbox=dict(boxstyle="round,pad=0.25", facecolor="#EEF2FF", edgecolor="#4338CA", lw=1.0)

@@ -11,7 +11,7 @@ Article Title:
    Curated LUNA16 Evaluation and Raw-CT Audit"
 
 Author:
-  Nader Jafari (Member of the Computer Society of Iran [CSI], Tehran, Iran)
+  Nader Jafari, M.Sc. in Software Engineering (Member of the Computer Society of Iran [CSI], Tehran, Iran)
   Email: Nader.jafari23@gmail.com | ORCID: 0009-0008-6849-3207
 
 Architectural Summary (Mapped 1-to-1 to Figure 1 & Equations 1–10):

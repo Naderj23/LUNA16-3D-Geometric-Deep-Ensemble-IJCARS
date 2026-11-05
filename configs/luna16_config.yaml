@@ -1,4 +1,4 @@
-# LUNA16 Dataset, Cohort Stratification, and Cryptographic Provenance Configuration
+# LUNA16 Dataset, Cohort Stratification, Prior-Shift Accounting & Cryptographic Provenance
 dataset:
   name: "LIDC-IDRI / LUNA16 Thoracic CT Benchmark"
   total_scans: 888
@@ -10,10 +10,12 @@ cohorts:
     filename: "LUNA16_Patches_CoordVerified_48.h5"
     total_patches: 10066
     positive_patches: 1186
+    positive_source: "Annotation-centered (annotations.csv, 1,186/1,186 = 100.0% theoretical recall ceiling; allows 98.65% [1,170/1,186] sensitivity at 8 FP/s in Table 5)"
     negative_patches: 8880
-    negatives_per_scan: 10.0
+    eval_negatives_per_scan: 10.00
     patch_shape_mm3: [48, 48, 48]
     voxel_spacing_mm: [1.0, 1.0, 1.0]
+    resampling_interpolation: "Sub-voxel trilinear interpolation (scipy.ndimage.map_coordinates / F.grid_sample) without integer index rounding"
     continuous_center_anchor_x0: [23.5, 23.5, 23.5]
     unrounded_float32_sha256: "48f009e851d23da1ae3ee72fa2bd4a37146a975264f0f027415a7fe15a7e97bc"
     per_patch_merkle_sha256: "90f6167ae46af384a685c9293da86e9b510859d119b05450ad94e3bb564c78f7"
@@ -21,16 +23,28 @@ cohorts:
   official_full_pool_v2:
     filename: "candidates_V2.csv"
     total_candidates: 754975
-    negatives_per_scan: 848.4
-    prior_shift_ratio_vs_curated: 84.15
-    detector_sensitivity_ceiling: 0.9831
+    positive_candidate_rows: 1557
+    covered_reference_nodules: 1166
+    detector_sensitivity_ceiling: 0.983137
+    raw_non_positive_rows: 753418
+    raw_non_positives_per_scan: 848.44
+    raw_density_ratio_vs_curated: 84.84
+    excluded_filtered_eval_negatives: 747252
+    eval_negatives_per_scan: 841.50
+    effective_prior_shift_ratio_vs_curated: 84.15
 
   official_full_pool_v1:
     filename: "candidates.csv"
     total_candidates: 551065
-    negatives_per_scan: 619.1
-    prior_shift_ratio_vs_curated: 61.34
-    detector_sensitivity_ceiling: 0.9444
+    positive_candidate_rows: 1351
+    covered_reference_nodules: 1120
+    detector_sensitivity_ceiling: 0.944351
+    raw_non_positive_rows: 549714
+    raw_non_positives_per_scan: 619.05
+    raw_density_ratio_vs_curated: 61.90
+    excluded_filtered_eval_negatives: 544701
+    eval_negatives_per_scan: 613.40
+    effective_prior_shift_ratio_vs_curated: 61.34
 
   raw_mhd_blind_pilot:
     mounted_scans_pool: 445
@@ -41,5 +55,7 @@ cohorts:
     posthoc_negative_scans: 7
     posthoc_reference_nodules: 36
     total_v2_candidates: 20984
+    stage0_top80_retained_nodules: 32
+    stage0_top80_recall_ceiling: 0.8889
     cross_audited_patches: 286
     candidate_pool_sha256_prefix: "50a5ca18dbba7e48"
