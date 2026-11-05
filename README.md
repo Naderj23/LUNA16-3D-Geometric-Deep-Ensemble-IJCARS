@@ -1,121 +1,91 @@
-# 3D Differential-Geometric Descriptors and Volumetric Deep Ensembles for Pulmonary Nodule Classification: A LUNA16 Benchmark Audit
+# 3D Differential-Geometric and Spherical-Harmonic Feature Fusion with Multi-Task CoordConv Networks for Pulmonary Nodule False-Positive Reduction
 
-[License: MIT](LICENSE)
-![Python 3.13](https://img.shields.io/badge/Python-3.13-blue.svg)
-![PyTorch 2.4](https://img.shields.io/badge/PyTorch-2.4-ee4c2c.svg)
-![Journal: IJCARS](https://img.shields.io/badge/Journal-IJCARS%20(Springer)-003366.svg)
+[![Journal: IJCARS (Springer Nature)](https://img.shields.io/badge/Journal-IJCARS%20(Springer%20Nature)-0F2544)](https://link.springer.com/journal/11548)
+[![Verification Suite: 15/15 Gates Passing](https://img.shields.io/badge/Verification%20Gates-15%2F15%20PASSED-15803D)](src/test_final_reproducible_framework.py)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-1D4ED8)](requirements.txt)
+[![PyTorch 2.x](https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C)](requirements.txt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-0F766E)](LICENSE)
+[![ORCID: 0009-0008-6849-3207](https://img.shields.io/badge/ORCID-0009--0008--6849--3207-A6CE39)](https://orcid.org/0009-0008-6849-3207)
 
-**Author:** Nader Jafari, M.Sc. (M.Sc. in Software Engineering)  
-**Affiliation:** Member of the Computer Society of Iran (CSI), Tehran, Iran  
-**ORCID iD:** [0009-0008-6849-3207](https://orcid.org/0009-0008-6849-3207)  
-**Corresponding Author Email:** [Nader.jafari23@gmail.com](mailto:Nader.jafari23@gmail.com)
+Official Three-Layer Reproducible Research Repository for the manuscript:
 
----
-
-## 1. Overview & Scientific Contributions
-
-This repository provides the official, end-to-end reproducible Python/PyTorch implementation, 3D differential-geometric feature extraction engine, scan-level cluster bootstrap evaluator, and forensic base-learner provenance audit for our manuscript submitted to the *International Journal of Computer Assisted Radiology and Surgery (IJCARS)*.
-
-### Key Algorithmic & Methodological Contributions
-1. **748 Physical 3D Descriptors (`D_1 = 784` with 36 Deep/Contextual Columns):**
-   - **Family 1 (`geom_v73`, 128d):** 26-ray 3D Star-Ray radial profiles, full-width at half-maximum radius ($r_{\mathrm{FWHM}}$), radial slope ($dI/dr$), and 6 concentric shell moments ($r \in \{1,\dots,14\}\text{ mm}$).
-   - **Family 2 (`star_v74`, 125d):** Scale-normalized 3D Hessian ($\mathbf{H}_\sigma = \sigma^2 \nabla^2 I_\sigma$, $\sigma \in \{1,2,3,4\}\text{ mm}$) Frangi vesselness ($V_\sigma$), blobness ($B_\sigma$), and algebraic Koenderink shape index ($\mathrm{SI}_\sigma$) and curvedness ($\mathrm{CV}_\sigma$).
-   - **Family 3 (`v75_X`, 229d):** Spherical-polar variance $\mathrm{Var}_\Omega(I)$, 3D Sobel gradient magnitude $\|\nabla I\|_2$, compact sphericity $\Psi$ (218d), and 13-direction 3D Gray-Level Co-occurrence Matrix (GLCM) Haralick texture features (11d).
-   - **Family 4 (`v76_X`, 137d):** Outward radial unit vector $\mathbf{u}_r(\mathbf{x})$ (with $\mathbf{u}_r(\mathbf{x}_0) = \mathbf{0}$ at $\mathbf{x}_0 = (24,24,24)$), inward radial-gradient flux ($\Phi_\sigma(\mathbf{x}) = -\nabla I_\sigma(\mathbf{x}) \cdot \mathbf{u}_r(\mathbf{x})$), and multi-scale Difference-of-Gaussians (DoG) bank.
-   - **Family 5 (`v77_X`, 129d):** 13 antipodal ray-pair minima ($a_m$) and 3-ray Y-bifurcation contrast ($C_{\mathrm{bifurc}} = \frac{r_{(1)}+r_{(2)}+r_{(3)}}{3} - r_{(7)}$) across 7 polar radial bands.
-2. **Center-Focused Multi-Scale Pyramid Pooling (`CF-MSPP`) & Bottleneck SNR Proof:**
-   - Eliminates $1/512$ lung-air dilution in $8^3 \to 1^3$ global average pooling on $3\text{–}6\text{ mm}$ micro-nodules, achieving a **+66.72 dB bottleneck SNR gain** at $D = 3.0\text{ mm}$ ($-39.21\text{ dB} \to +27.51\text{ dB}$).
-3. **Direct-FROC Surrogate Neural Calibrator (`DirectFROCNeuralCalibrator`):**
-   - Optimizes a differentiable Softplus surrogate loss directly at the 7 LUNA16 false-positive operating thresholds $\{0.125, 0.25, 0.5, 1.0, 2.0, 4.0, 8.0\}$ FP/scan.
-4. **Forensic 9-Field Base-Learner Provenance & Analytical $61.9\times$ Prior-Shift Audit:**
-   - **Curated Patch Benchmark vs. Unscreened Official Track:** All empirical experiments are conducted on the curated 10,066-patch cohort (`LUNA16_Patches_CoordVerified_48.h5`: 1,186 annotation-centered positives + 8,880 negatives at `10.0 neg/scan`), scored with the official `noduleCADEvaluationLUNA16.py` evaluator. Because we do not empirically evaluate all 551,065 (`candidates.csv`) or 754,975 (`candidates_V2.csv`) unscreened detector candidates, our CPM scores represent curated-benchmark performance, complemented by an analytical $61.9\times$ horizontal FP-axis prior-shift projection (`46.28%` CPM).
-   - **Non-Equivalence of Regime I and Regime II Across All 888 Scans:**
-     - **Regime I (Strict 100% Pure-OOF across all 888 scans: `81.24%` vs. `74.18%` CPM, `+7.06` percentage points, $p < 0.001$)** uses only the two scan-disjoint OOF 3D CNNs (`V7.5` 10-fold OOF and `V7.6` 5-fold OOF; `is_oof = True` for all 10,066 patches) and serves as the **sole confirmatory Pure-OOF baseline across all 888 scans**.
-     - **Regime II across all 888 scans (`84.39%` CPM)** is a **Hybrid Meta-OOF** regime: while the Stage-1/Stage-2 meta-learners, scaling, and feature selection are 10-fold scan-disjoint OOF, 5 of the 7 CNN base learners (`V4.6`–`V7.3`) were trained on `Train-622` (`is_oof = False` on `Train-622`). Meta-learner OOF partitioning alone does not remove this upstream prediction provenance difference on `Train-622`.
-     - **Independent 133-Scan Validation (`86.36%`) and 133-Scan Hold-Out Test (`86.66%`) Splits:** On these locked 133-scan cohorts, all 7 CNN base learners are **100% scan-disjoint out-of-sample (`is_oof = True`, `Overlap = 0`)**.
+> **Nader Jafari\*** (2026). *"3D Differential-Geometric and Spherical-Harmonic Feature Fusion with Multi-Task CoordConv Networks for Pulmonary Nodule False-Positive Reduction: Curated LUNA16 Evaluation and Raw-CT Audit."* Submitted to the **International Journal of Computer Assisted Radiology and Surgery (IJCARS)**, Springer Nature.
+> \*Member of the Computer Society of Iran (CSI), Tehran, Iran | Email: `Nader.jafari23@gmail.com` | ORCID: [0009-0008-6849-3207](https://orcid.org/0009-0008-6849-3207)
 
 ---
 
-## 2. Summary of Audited Results on the Curated LUNA16 Benchmark (10,066 Patches)
+## 1. Architectural Overview & Cohort Stratification (Figure 1)
 
-| Evaluation Cohort & Regime | Base CNN Provenance (`is_oof`) | Evaluator CPM (95% CI) | Step FROC CPM | ROC-AUC / FPR@97% |
-| :--- | :--- | :---: | :---: | :---: |
-| **All 888 Scans — Step 0: OOF CNNs Only (0d)** | **100% Pure-OOF (`V7.5 + V7.6`, `is_oof = True`)** | 74.18% (71.12–77.15%) | 74.31% | 0.9399 / 38.40% |
-| **All 888 Scans — Regime I: +748 Physical 3D Descriptors** | **100% Pure-OOF (`V7.5 + V7.6`, `is_oof = True`)** | **81.24% (78.59–83.85%)** | **81.33%** | **0.9492 / 28.70%** |
-| **All 888 Scans — Regime II: Hybrid 7-CNN + 10F Meta-OOF** | Hybrid (2 OOF CNNs + 5 `Train-622` CNNs)* | 84.39% (81.73–86.90%) | 84.33% | 0.9621 / 24.02% |
-| **Independent Validation Split (133 Scans, 169 Lesions)** | **100% Out-of-Sample (All 7 CNNs `is_oof = True`)** | **86.36% (79.53–92.08%)** | **86.98%** | **0.9640 / 23.46%** |
-| **Independent Hold-Out Test Split (133 Scans, 167 Lesions)** | **100% Out-of-Sample (All 7 CNNs `is_oof = True`)** | **86.66% (80.23–92.28%)** | **86.83%** | **0.9707 / 17.59%** |
-| **Analytical $61.9\times$ Prior-Shift Projection (All 888 Scans)** | Analytical Horizontal FP-Axis Scaling (`619.1/scan`) | 46.28% (41.59–51.77%) | 39.35% | 0.9621 / 24.02% |
+![Figure 1: LUNA16 Cohort Stratification and Proposed 4-Stage Hybrid 3D Architecture](figures/Fig1_IJCARS_Data_and_Pipeline_600dpi.png)
 
-*Note: On All-888 Scans, Regime I (`81.24%`) and Regime II (`84.39%`) do not provide equivalent statistical evidence because 5/7 CNNs in Regime II were trained on `Train-622`. Strict 7-CNN out-of-sample evaluation holds exclusively on the 133-scan Validation and 133-scan Hold-Out Test splits.
-
-- **Large-Nodule ($D \ge 10.0\text{ mm}$, $n=35$ on Test) Recall Recovery at 1.0 FP/scan:** Improves from **65.71% (23/35)** with 3D CNNs alone to **82.86% (29/35)** in nested V8.1 and **88.57% (31/35)** in exploratory V7.6, while preserving **87.84% (65/74)** sensitivity on small nodules ($D < 6.0\text{ mm}$).
-- **Clinical Safety-Net Recall on Hold-Out Test:** Reaches **97.62%**, **99.44%**, and **100.00%** sensitivity at `2.0`, `4.0`, and `8.0 FP/scan`.
+Our framework resolves two core challenges in thoracic CT false-positive reduction (FPRED):
+1. **Strict Separation of Evaluation Regimes & Prior-Shift Accounting (`Eqs. 1, 10`)**: We formally quantify the $84.15\times$ (`candidates_V2.csv`: `754,975` rows, `848.4 neg/scan`) and $61.34\times$ (`candidates.csv`: `551,065` rows, `619.1 neg/scan`) negative-density ratios relative to the curated coordinate-verified cohort (`LUNA16_Patches_CoordVerified_48.h5`: `10,066` patches, `1,186` positives, `8,880` negatives = `10.0 neg/scan`), preventing conflation of curated-cohort CPMs with full-pool FPRED tracks.
+2. **Synergistic 3D Geometric-Harmonic (`1,166D`) and Inner-Fold Multi-Task CoordConv (`29D`) Fusion (`Eqs. 2–9`)**: Nine segmentation-free 3D physical, differential-geometric ($3\times 3$ Cardano Hessian invariants), Dual-QR real spherical-harmonic ($\ell \in \{0..4\}$ on the 26-ray lattice), inward radial-gradient flux, and topological veto families (`1,166D`) are fused with a leak-free inner 5-fold 6-channel `MultiWindowCoordConv3DResNeXtWithDiameterHead` (`12³/24³/48³` + box-diff + GGN window + 3D radial CoordConv, with core-vs.-outer pooling and auxiliary Huber $\log(1+D)$ regression) and a 9-channel 2.5D Tri-Planar MIP ConvNet (`29D` OOF context; $D_{\text{hybrid}} = 1,195\text{D}$).
 
 ---
 
-## 3. Repository Structure
+## 2. Three-Layer Repository Structure
 
-```text
-LUNA16-3D-Geometric-Deep-Ensemble-IJCARS/
-├── README.md                                              # Documentation, provenance audit, and reproduction guide
-├── LICENSE                                                # MIT Open-Source License
-├── CITATION.cff                                           # Official GitHub & ORCID citation metadata
-├── requirements.txt                                       # Exact pinned Python environment dependencies
-├── docs/
-│   └── GITHUB_PROFILE_README_TEMPLATE.md                  # Ready-to-use GitHub Profile README for Nader Jafari
-├── figures/                                               # 600-DPI publication figures (Fig. 1 to Fig. 7)
-│   ├── Fig1_IJCARS_Data_and_Pipeline_600dpi.png
-│   ├── Fig2_IJCARS_CT_Feature_Maps_600dpi.png
-│   ├── Fig3_IJCARS_Convergence_and_SNR_600dpi.png
-│   ├── Fig4_IJCARS_FROC_Curves_600dpi.png
-│   ├── Fig5_IJCARS_Ablation_and_Radar_600dpi.png
-│   ├── Fig6_IJCARS_Diameter_and_Features_600dpi.png
-│   └── Fig7_IJCARS_Regimes_and_PriorShift_600dpi.png
-└── src/
-    ├── physical_3d_descriptors_748d.py                    # Reference implementation of Eqs. (1)-(10) & 748D descriptors
-    ├── stage1_luna16_isotropic_preprocessing.py           # SimpleITK 1x1x1 mm^3 resampling & 48^3 patch extraction
-    ├── stage2_train_3d_resacs_and_748d_descriptors.py     # Regime I (Pure-OOF), Regime II (Hybrid), & 133-Split pipeline
-    └── stage3_evaluate_froc_cpm_and_plots.py              # FROC/CPM bootstrap evaluator & 600-DPI plot generator
-```
+| Layer | Repository Directory & Key Files | Scientific Role |
+| :--- | :--- | :--- |
+| **Layer 1: Final Manuscript & Artwork** | `docs/LUNA16_Hybrid_3D_CAD_Final_Manuscript.pdf` (`.docx`)<br>`docs/MS_ResACS_3DNet_V3_Blinded_Only.docx`<br>`figures/Fig1..Fig7` (`600 DPI PNG` + `Vector PDF`) | Complete IJCARS manuscript (`4,984` total words; `222`-word structured abstract; 10 editable OMML equations; 6 Booktabs tables; 7 figures; 30 verified Springer Nature references). |
+| **Layer 2: Reproducible Code & 15-Gate Test Suite** | `src/LUNA16_Final_Reproducible_Implementation.py`<br>`src/stage4_full_551065_unscreened_evaluator.py`<br>`src/test_final_reproducible_framework.py`<br>`src/generate_final_7_figures.py` | Self-contained PyTorch/NumPy/SciPy implementation and **15-gate automated verification suite** (`15/15 PASSED` in `< 1.2s`). |
+| **Layer 3: Supplementary Material & Ablation Ledger** | `docs/ESM_1.pdf` (`Online_Resource_1_Supplementary_Material.pdf`)<br>`docs/IJCARS_Title_Page.pdf` & `docs/IJCARS_Cover_Letter.pdf` | Extended 7-point FROC comparison (`Table S1`), cryptographic SHA-256 & 286-patch `.mhd` vs. HDF5 audit (`Table S2`), subprocess FROC equivalence (`Table S3`), development & ablation ledger (`Table S4`), and 15-gate inventory (`Table S5`). |
 
 ---
 
-## 4. Quick Start & Reproduction
+## 3. Verified Empirical Results Across Separated Evaluation Regimes
 
-### 4.1 Environment Setup
+| Evaluation Regime & Protocol | Evaluated Model / Stage | Dimensions | Official Point CPM (%) | Bootstrap Mean [95% CI] | ROC-AUC | External Subprocess Diff |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| **Regime 1: Curated All-888 (`10×5 Nested CV`)** | Standalone 6-Ch CoordConv 3D CNN | `29D` | `67.48%` | `67.51% [65.10%–69.85%]` | `0.9312` | `0.0000 pp` |
+| **Regime 1: Curated All-888 (`10×5 Nested CV`)** | Classical 5-Family 3D Baseline (`Zero CNN`) | `742D` | `88.19%` | `88.21% [86.52%–89.81%]` | `0.9745` | `0.0000 pp` |
+| **Regime 1: Curated All-888 (`10×5 Nested CV`)** | **Proposed Pure 9-Family 3D (`Zero CNN`)** | **`1,166D`** | **`91.94%`** | **`91.97% [90.51%–93.38%]`** | **`0.9835`** | **`0.0000 pp`** |
+| **Regime 1: Curated All-888 (`10×5 Nested CV`)** | **Proposed Hybrid End-to-End (`9-Fam + Deep`)** | **`1,195D`** | **`92.33%`** | **`92.34% [90.91%–93.66%]`** | **`0.9841`** | **`0.0000 pp`** |
+| **Regime 1: Locked Validation Split (`133 Scans`)** | **Pure 9-Family / Hybrid End-to-End** | `1,166D / 1,195D` | **`93.83% / 93.15%`** | `93.66% / 93.43%` | `0.9869 / 0.9847` | `0.0000 pp` |
+| **Regime 1: Locked Hold-Out Test Split (`133 Scans`)** | **Pure 9-Family / Hybrid End-to-End** | `1,166D / 1,195D` | **`89.91% / 90.25%`** | `90.02% / 90.35%` | `0.9795 / 0.9808` | `0.0000 pp` |
+| **Regime 3: Raw `.mhd` 25-Scan Blind Pilot (`20,984 Rows`)** | 64D Dual-View Stage-0 Screener (`Top-80: 88.89%`) | `64D` | `53.97%` | `54.02% [45.80%–62.10%]` | — | `0.0000 pp` |
+| **Regime 3: Raw `.mhd` 25-Scan Blind Pilot (`20,984 Rows`)** | **Proposed Two-Stage Re-Centered Cascade** | **`64D -> 1,195D`** | **`76.19%`** | **`76.21% [68.40%–83.60%]`** | — | **`0.0000 pp`** |
+
+---
+
+## 4. Quickstart: Running the 15-Gate Verification Suite & Reproducing Figures
+
+### A. Run the 15-Gate Unit, Integration & Manuscript-Reconciliation Test Suite (`< 1.2s`)
 ```bash
-git clone https://github.com/Naderj23/LUNA16-3D-Geometric-Deep-Ensemble-IJCARS.git
-cd LUNA16-3D-Geometric-Deep-Ensemble-IJCARS
 pip install -r requirements.txt
+python3 src/test_final_reproducible_framework.py
 ```
 
-### 4.2 Three-Stage Pipeline Execution
-1. **Stage 1 — Isotropic $1\times 1\times 1\text{ mm}^3$ Resampling & Coordinate-Verified $48^3$ Patch Extraction:**
-   ```bash
-   python3 src/stage1_luna16_isotropic_preprocessing.py
-   ```
-2. **Stage 2 — 3D ResACS-Net (`CF-MSPP + OHEM`), 748D Physical Feature Extraction, and Regime I / Regime II / 133-Split Evaluation:**
-   ```bash
-   python3 src/stage2_train_3d_resacs_and_748d_descriptors.py
-   ```
-3. **Stage 3 — Scan-Level Cluster Bootstrap Verification & 600-DPI Publication Figures:**
-   ```bash
-   python3 src/stage3_evaluate_froc_cpm_and_plots.py
-   ```
+All 15 verification gates (`Gate 00` through `Gate 14`) validate:
+- **Gate 00**: AST syntax & architectural symbol presence (`Stage0GPUMultiScaleScreener`, `MultiWindowCoordConv3DResNeXtWithDiameterHead`, `FoldIsolatedTriPlanarMIPConvNet`, etc.).
+- **Gate 01**: Exact $3\times 3$ affine `.mhd` world-to-voxel and inverse mapping ($< 10^{-11}\text{ mm}$ error, `Eq. 1`).
+- **Gate 02**: Scale-normalized $3\times 3$ Cardano Hessian eigenvalues vs. `numpy.linalg.eigh` ($< 10^{-10}$) and $O(3)$ axis-permutation invariance (`Eqs. 2–3`).
+- **Gate 03**: Dual-QR real spherical harmonics ($\ell=0..4$, 25 modes) orthonormality ($< 10^{-12}$) and $O_h$ reflection invariance (`Eqs. 4–5`).
+- **Gate 04**: Exact 9-family dimensionality (`126 + 125 + 229 + 131 + 129 = 740D`; $D_{\text{pure}} = 1,166\text{D}$; $D_{\text{hybrid}} = 1,195\text{D}$; $D_{\text{spec}} = 506\text{D}$, `Eq. 8`).
+- **Gate 05**: Bit-for-bit `0.00e+00` float32 equivalence of 64D Stage-0 descriptors.
+- **Gate 06**: Sphericity-gated 3D foveal centroid shift recovery ($\Delta\mathbf{x}_{\text{fovea}}$, `Eq. 9`).
+- **Gate 07**: Cardinality-matched $K=24$ scan-context invariance (`0.00e+00` shift under background candidate expansion, `Eq. 9`).
+- **Gate 08**: Exact 8-view cube reflection symmetry of 3D CoordConv and 2.5D MIP tensors.
+- **Gate 09**: Strict monotonic cascade ordering ($\min P[\text{Top-80}] > \max P[\text{Rest}]$).
+- **Gate 10**: Deterministic `Seed=42` label-blind `.mhd` scan selector without annotation lookup.
+- **Gate 11**: Aggregated per-patch `hashlib.sha256` checksum digest and fail-closed cache rejection.
+- **Gate 12**: 1-to-1 numerical reconciliation across all manuscript tables (`Tables 1–6`) and supplementary tables (`Tables S1–S4`).
+- **Gate 13**: End-to-end $< 0.5 D$ 3D Euclidean FROC matching and fail-closed `RuntimeError` gate on missing subprocess output (`Eq. 10`).
+- **Gate 14**: Full manuscript reconciliation (`Eqs. 1–10`, `Tables 1–6`, `Figs. 1–7`, `<= 5,000` total words, and strict sequential citation ordering `[1]..[30]`).
+
+### B. Regenerate All 7 Publication Figures (`600 DPI PNG` & `Vector PDF`)
+```bash
+python3 src/generate_final_7_figures.py
+```
 
 ---
 
-## 5. Citation
+## 5. Cryptographic Data Provenance (SHA-256 Digests)
 
-If you find this code, the 748D 3D differential-geometric descriptor bank, or our forensic LUNA16 benchmark audit useful in your research, please cite:
-
-```bibtex
-@article{Jafari2026LUNA16,
-  author  = {Jafari, Nader},
-  title   = {3D Differential-Geometric Descriptors and Volumetric Deep Ensembles for Pulmonary Nodule Classification: A {LUNA16} Benchmark Audit},
-  journal = {International Journal of Computer Assisted Radiology and Surgery},
-  year    = {2026},
-  note    = {Member of the Computer Society of Iran (CSI), Tehran, Iran; ORCID: 0009-0008-6849-3207}
-}
-```
+- **`LUNA16_Patches_CoordVerified_48.h5` (`10,066` Patches, $48^3\text{ mm}^3$)**:
+  - Unrounded IEEE-754 `float32` Voxel SHA-256: `48f009e851d23da1ae3ee72fa2bd4a37146a975264f0f027415a7fe15a7e97bc`
+  - Aggregated Per-Patch SHA-256 Checksum Digest: `90f6167ae46af384a685c9293da86e9b510859d119b05450ad94e3bb564c78f7`
+  - Canonical 5-Decimal Voxel + Metadata SHA-256: `a1a2d656047040a9c5e36406649e84250ca5cf93740e14e0b0443a438fa8c3e5`
+- **25-Scan Label-Blind Raw `.mhd` Pilot Cohort (`20,984` `candidates_V2.csv` Rows, `Seed=42`)**:
+  - Candidate Pool SHA-256 Prefix: `50a5ca18dbba7e48`
