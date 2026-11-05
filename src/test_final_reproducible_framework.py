@@ -556,13 +556,13 @@ class TestFinalReproducibleFramework(unittest.TestCase):
         self.assertIn("M.Sc. in Software Engineering", combined, "Missing M.Sc. in Software Engineering degree in manuscript!")
         total_all_words = sum(len(p.text.split()) for p in doc.paragraphs) + sum(len(c.text.split()) for t in doc.tables for r in t.rows for c in r.cells)
         self.assertLessEqual(total_all_words, 5000, f"Manuscript total words {total_all_words} exceeds 5,000 limit!")
-        for arch_ref in ["Setio", "Causey", "NoduleX", "Kim", "Xiao", "El-Baz", "Winkels", "CoordConv", "10.3390/app9163261", "10.1007/978-3-642-23626-6_22", "10.1109/CBD51900.2020.00047", "10.1007/978-3-540-88693-8_27", "10.1201/9780429246593"]:
+        for arch_ref in ["Setio", "Causey", "NoduleX", "Kim", "Xiao", "El-Baz", "Winkels", "CoordConv", "10.3390/app9163261", "10.1007/978-3-642-23626-6_22", "10.1109/CBD51900.2020.00047", "10.1007/978-3-540-88693-8_27", "10.1201/9780429246593", "Aragones", "10.1007/s11548-026-03696-y", "10.1007/s11548-025-03428-8", "10.1007/s11548-025-03513-y"]:
             self.assertIn(arch_ref, combined, f"Missing architecturally matched reference {arch_ref}!")
         bms = [el.get("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}name")
                for el in doc._element.xpath('.//*[local-name()="bookmarkStart"]')]
         hls = [el.get("{http://schemas.openxmlformats.org/wordprocessingml/2006/main}anchor")
                for el in doc._element.xpath('.//*[local-name()="hyperlink"]')]
-        for k in range(1, 31):
+        for k in range(1, 34):
             self.assertIn(f"ref_{k}", bms, f"Missing reference bookmark ref_{k}!")
         seen_ref_order = []
         for p in doc.paragraphs:
@@ -574,13 +574,13 @@ class TestFinalReproducibleFramework(unittest.TestCase):
                     if "–" in part or "-" in part:
                         a, b = re.split(r"[–-]", part)
                         for k in range(int(a), int(b) + 1):
-                            if 1 <= k <= 30 and k not in seen_ref_order:
+                            if 1 <= k <= 33 and k not in seen_ref_order:
                                 seen_ref_order.append(k)
                     else:
                         k = int(part)
-                        if 1 <= k <= 30 and k not in seen_ref_order:
+                        if 1 <= k <= 33 and k not in seen_ref_order:
                             seen_ref_order.append(k)
-        self.assertEqual(seen_ref_order, list(range(1, 31)), f"References not cited in sequential order 1..30: {seen_ref_order}")
+        self.assertEqual(seen_ref_order, list(range(1, 34)), f"References not cited in sequential order 1..33: {seen_ref_order}")
         self.assertGreaterEqual(len(hls), 65, f"Expected >= 65 clickable citation hyperlinks, found {len(hls)}")
         for req_num in ["68.97%", "89.43%", "93.83%", "93.15%", "69.21%", "87.34%", "89.91%", "90.25%", "-39.29 dB", "+27.51 dB", "+66.80 dB"]:
             self.assertIn(req_num, combined, f"Missing reconciled metric {req_num} in manuscript!")
