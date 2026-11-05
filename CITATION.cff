@@ -3,7 +3,7 @@ message: "If you use this software, the 9-family 3D geometric-harmonic descripto
 authors:
   - family-names: "Jafari"
     given-names: "Nader"
-    affiliation: "Member of the Computer Society of Iran (CSI), Tehran, Iran"
+    affiliation: "M.Sc. in Software Engineering; Member of the Computer Society of Iran (CSI), Tehran, Iran"
     email: "Nader.jafari23@gmail.com"
     orcid: "https://orcid.org/0009-0008-6849-3207"
 title: "3D Differential-Geometric and Spherical-Harmonic Feature Fusion with Multi-Task CoordConv Networks for Pulmonary Nodule False-Positive Reduction: Curated LUNA16 Evaluation and Raw-CT Audit"

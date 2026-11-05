@@ -9,8 +9,12 @@
 
 **Reviewer-Oriented Reproducibility Repository** for the manuscript:
 
-> **Nader Jafari\*** (2026). *"3D Differential-Geometric and Spherical-Harmonic Feature Fusion with Multi-Task CoordConv Networks for Pulmonary Nodule False-Positive Reduction: Curated LUNA16 Evaluation and Raw-CT Audit."* Submitted to the **International Journal of Computer Assisted Radiology and Surgery (IJCARS)**, Springer Nature.
-> \*Member of the Computer Society of Iran (CSI), Tehran, Iran | Email: `Nader.jafari23@gmail.com` | ORCID: [0009-0008-6849-3207](https://orcid.org/0009-0008-6849-3207)
+**Author:** Nader Jafari, M.Sc. (M.Sc. in Software Engineering)  
+**Affiliation:** Member of the Computer Society of Iran (CSI), Tehran, Iran  
+**ORCID iD:** [0009-0008-6849-3207](https://orcid.org/0009-0008-6849-3207)  
+**Corresponding Author Email:** [Nader.jafari23@gmail.com](mailto:Nader.jafari23@gmail.com)
+
+> **Nader Jafari, M.Sc. in Software Engineering\*** (2026). *"3D Differential-Geometric and Spherical-Harmonic Feature Fusion with Multi-Task CoordConv Networks for Pulmonary Nodule False-Positive Reduction: Curated LUNA16 Evaluation and Raw-CT Audit."* Submitted to the **International Journal of Computer Assisted Radiology and Surgery (IJCARS)**, Springer Nature.
 
 ---
 
